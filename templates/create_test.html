@@ -1,0 +1,136 @@
+{% extends 'professor_dashboard.html' %}
+{% load static %}
+{% block body %}
+
+<div class="py-4">
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+            <li class="breadcrumb-item"><a href="#"><span class="fas fa-home"></span></a></li>
+            <li class="breadcrumb-item"><a href="#">Tests</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create Test</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between w-100 flex-wrap">
+        <div class="mb-3 mb-lg-0">
+            <h1 class="h3">Create New Test</h1>
+            <p class="mb-0">Fill in the details for your new test.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card border-light shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Test Details</h5>
+            </div>
+            <div class="card-body">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <form method="POST" action="{% url 'create_test' %}">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="subject" class="h6">Subject <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-book"></i></span>
+                                <input type="text" class="form-control" id="subject" name="subject"
+                                    placeholder="e.g. Computer Science" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="topic" class="h6">Topic <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
+                                <input type="text" class="form-control" id="topic" name="topic"
+                                    placeholder="e.g. Data Structures" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="test_id" class="h6">Test ID <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                <input type="text" class="form-control" id="test_id" name="test_id"
+                                    placeholder="Unique Exam ID" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="password" class="h6">Password <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Exam Access Password" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="duration" class="h6">Duration (minutes)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                <input type="number" class="form-control" id="duration" name="duration" placeholder="60"
+                                    value="60" min="1">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="calc" class="h6">Calculator Access</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-calculator"></i></span>
+                                <select class="form-control" id="calc" name="calc">
+                                    <option value="0">Disabled</option>
+                                    <option value="1">Enabled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="proctortype" class="h6">Proctoring Mode</label>
+                        <div class="card bg-light border-0 p-3">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="proctortype" id="proctor_local"
+                                    value="0" checked>
+                                <label class="form-check-label" for="proctor_local">
+                                    <strong>AI Auto-Proctoring (Recommended)</strong>
+                                    <div class="small text-muted">Uses Webcam + Local AI to detect phones, people, and
+                                        cheating behavior.</div>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="proctortype" id="proctor_live"
+                                    value="1">
+                                <label class="form-check-label" for="proctor_live">
+                                    <strong>Live Professor Monitoring</strong>
+                                    <div class="small text-muted">Requires live WebRTC server connection.</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{% url 'professor_index' %}" class="btn btn-outline-secondary mr-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-plus-circle mr-2"></i>
+                            Create Test</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'professor_dashboard.html' %}
+{% load static %}
+{% block body %}
+
+<div class="py-4">
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+            <li class="breadcrumb-item"><a href="#"><span class="fas fa-home"></span></a></li>
+            <li class="breadcrumb-item"><a href="#">Tests</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create Subjective Test</li>
+        </ol>
+    </nav>
+    
+    <div class="d-flex justify-content-between w-100 flex-wrap">
+        <div class="mb-3 mb-lg-0">
+            <h1 class="h3">Create New Subjective Test</h1>
+            <p class="mb-0">Fill in the details for your new subjective test with long-form questions.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card border-light shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Subjective Test Details</h5>
+            </div>
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <form method="POST" action="{% url 'create_test_lqa' %}">
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="subject">Subject *</label>
+                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter subject" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="topic">Topic *</label>
+                            <input type="text" class="form-control" id="topic" name="topic" placeholder="Enter topic" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="test_id">Test ID *</label>
+                            <input type="text" class="form-control" id="test_id" name="test_id" placeholder="Enter unique test ID" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password">Password *</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="duration">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="duration" name="duration" placeholder="Enter duration in minutes" value="60" min="1">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="calc">Calculator Access</label>
+                            <select class="form-control" id="calc" name="calc">
+                                <option value="0">Disabled</option>
+                                <option value="1">Enabled</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="proctortype">Proctoring Type</label>
+                        <select class="form-control" id="proctortype" name="proctortype">
+                            <option value="0">Video Proctoring (Local)</option>
+                            <option value="1">Live Proctoring (OpenTok)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="instructions">Instructions</label>
+                        <textarea class="form-control" id="instructions" name="instructions" rows="3" placeholder="Enter instructions for the test..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <small class="form-text text-muted">
+                            Fields marked with * are required. This creates a subjective test with long-form answers.
+                        </small>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Create Subjective Test</button>
+                    <a href="{% url 'professor_index' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends 'exam_layout.html' %}
+{% load static %}
+{% block body %}
+
+<script type="text/javascript"> var answers = "{{answers}}";</script>
+<script>var tid = "{{tid}}";</script>
+<main>
+  {% csrf_token %}
+  <section class="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
+    <div class="container">
+      <div class="col-12 d-flex align-items-center justify-content-center">
+        <div class="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-900">
+          <!-- Modern Header -->
+          <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 pb-3 border-bottom">
+            <div class="mb-3 mb-md-0">
+              <h3 class="h5 mb-1 font-weight-bold text-primary"><i class="fas fa-user-graduate mr-2"></i> {{
+                session.name }}</h3>
+              <div class="text-muted small"><i class="fas fa-envelope mr-2"></i> {{ session.email }}</div>
+            </div>
+            <div class="text-center text-md-right">
+              <div id="time" class="h3 mb-0 font-weight-bold text-danger">{{duration}}</div>
+              <div class="small text-uppercase font-weight-bold text-muted mt-1">Time Left</div>
+            </div>
+          </div>
+
+          <!-- Exam Info Badges -->
+          <div class="d-flex flex-wrap gap-3 mb-4 bg-light p-3 rounded align-items-center">
+            <span class="badge badge-primary mr-2 p-2"><i class="fas fa-book mr-1"></i> {{subject}}</span>
+            <span class="badge badge-info mr-2 p-2"><i class="fas fa-list-alt mr-1"></i> {{topic}}</span>
+            <span class="badge badge-secondary p-2"><i class="fas fa-id-card mr-1"></i> ID: {{tid}}</span>
+          </div>
+          <div class="form-group">
+            <div class="container">
+              <div id="overlay">
+                <div class="row" id="question-list">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="mb-0 h4">
+              <div id='queid'>Q.</div>
+              <div id="que">{{ q }}</div>
+              <div id='mark'> [MAX MARKS: {{ marks}}] </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="h6" for="exampleFormControlTextarea1">Select your Answer</label>
+            <div id="options" class="options-container">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="answer-options" id="option-a" value="a">
+                <label class="form-check-label" for="option-a">𝐀. {{ a }}</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="answer-options" id="option-b" value="b">
+                <label class="form-check-label" for="option-b">𝐁. {{ b }}</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="answer-options" id="option-c" value="c">
+                <label class="form-check-label" for="option-c">𝐂. {{ c }}</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="answer-options" id="option-d" value="d">
+                <label class="form-check-label" for="option-d">𝐃. {{ d }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-6 d-flex justify-content-between mb-3">
+              <button type="button" id="prevBtn" class="btn btn-outline-primary"><i class="fas fa-arrow-left me-2"></i>
+                Previous</button>
+              <button type="button" id="nextBtn" class="btn btn-primary">Next <i
+                  class="fas fa-arrow-right ms-2"></i></button>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end mb-3 gap-2">
+              <button type="button" class="btn btn-info text-white mr-2" id="bookmarkBtn"><i
+                  class="fas fa-bookmark me-2"></i> Bookmark</button>
+              <button type="button" id="submitBtn" class="btn btn-success"><i class="fas fa-check me-2"></i> Submit
+                Answer</button>
+            </div>
+          </div>
+
+          <div class="mt-5 border-top pt-4">
+            <button class="btn btn-danger btn-block btn-lg shadow-soft" id="finishBtn">
+              <i class="fas fa-flag-checkered me-2"></i> Finish Exam
+            </button>
+          </div>
+
+          <div class="form-group">
+            <div class="container" id="calccheck" style="display: none;">
+              <iframe src="/calc" style="height:500px;width:500px;" title="Iframe Example"></iframe>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="container">
+              <div class="justify-content-center align-items-center">
+                <div id="otEmbedContainer" id="livecheck" style="width:320px; height:320px; display: none;">
+                  <script
+                    src="https://tokbox.com/embed/embed/ot-embed.js?embedId=2020dbd9-0a89-472d-a60b-ca12ddfd48bc&room={{tid}}"></script>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="container" id="videocheck"
+                style="display: none; position: fixed; top: 10px; right: 10px; z-index: 9999; width: auto; background-color: black; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+                <div class="justify-content-center align-items-center">
+                  <video id="stream" width="200" height="200" style="border: 1px solid #333; border-radius: 4px;">
+                    <canvas id="capture" width="200" height="200"></canvas>
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+  </section>
+</main>
+<style>
+  .selected-answer {
+    background-color: rgba(0, 255, 0, 0.6) !important;
+    padding: 5px;
+    border-radius: 4px;
+  }
+
+  .options-container {
+    margin-top: 15px;
+  }
+
+  .form-check {
+    margin-bottom: 10px;
+  }
+</style>
+<script type="text/javascript" src="{% static 'app.js' %}"></script>
+<script>
+  var cal = "{{calc}}";
+  console.log(cal)
+  if (cal == "1") {
+    document.getElementById('calccheck').style.display = "block"
+  }
+  else {
+    document.getElementById('calccheck').style.display = "none"
+  }
+  var vid = "{{proctortype}}";
+  console.log(vid)
+  if (vid == "0") {
+    document.getElementById('videocheck').style.display = "block"
+    startStreaming();
+    captureSnapshot();
+  }
+  else {
+    document.getElementById('livecheck').style.display = "block"
+  }
+</script>
+<footer id="sticky-footer" class="py-4">
+  <div class="d-flex text-center justify-content-center align-items-center" role="contentinfo">
+    <p class="font-weight-bold font-medium mb-0">Copyright © MyProctor.ai
+      <span class="current-year">
+        <script>document.write(new Date().getFullYear())</script>
+      </span>. All rights reserved.
+    </p>
+  </div><br>
+  <div class="d-flex text-center justify-content-center align-items-center" role="contentinfo">
+    <p class="font-weight-bold font-small mb-0"><span>Made with &#128151 By NARENDER KESWANI</span></p>
+  </div>
+</footer>
+{% endblock %}

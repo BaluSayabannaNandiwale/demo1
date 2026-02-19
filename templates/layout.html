@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>MyProctor.ai</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="120x120" href="{% static 'assets/img/favicon/apple-touch-icon.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/img/favicon/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="16x16"  href="{% static 'assets/img/favicon/favicon-16x16.png' %}">
+<link rel="manifest" href="{% static 'assets/img/favicon/site.webmanifest' %}">
+<link rel="mask-icon" color="#ffffff"  href="{% static 'assets/img/favicon/safari-pinned-tab.svg' %}">
+
+<!-- Fontawesome -->
+<link type="text/css" rel="stylesheet" href="{% static 'vendor/@fortawesome/fontawesome-free/css/all.min.css' %}">
+
+<!-- Pixel CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/pixel.css' %}">
+<!-- Google Fonts - modern typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- SweetAlert2 for logout confirmation -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+  body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+  #sticky-footer { background: linear-gradient(135deg, #1c2540 0%, #242e4c 100%); color: #fff; }
+  #sticky-footer a { color: #93d4d4; }
+  #sticky-footer a:hover { color: #fff; }
+  .navbar-main { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .card { border-radius: 12px; transition: box-shadow 0.2s; }
+  .card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .btn-primary { border-radius: 8px; font-weight: 600; }
+  .btn-secondary { border-radius: 8px; }
+  .form-control { border-radius: 8px; }
+  .icon-box-title { font-weight: 600; }
+</style>
+{% block head %}{% endblock %}
+  </head>
+  <body>
+    {% include 'includes/_navbar.html' %}
+    <!--<div class="container">-->
+      {% include 'includes/_messages.html' %}
+      {% block body %}{% endblock %}
+    <!--</div>-->
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- Core -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="{% static 'vendor/popper.js/dist/umd/popper.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'vendor/headroom.js/dist/headroom.min.js' %}"></script>
+
+<!-- Vendor JS -->
+<script src="{% static 'vendor/onscreen/dist/on-screen.umd.min.js' %}"></script>
+<script src="{% static 'vendor/nouislider/distribute/nouislider.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'vendor/waypoints/lib/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'vendor/jarallax/dist/jarallax.min.js' %}"></script>
+<script src="{% static 'vendor/jquery.counterup/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-countdown/dist/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"></script>
+<script src="{% static 'vendor/prismjs/prism.js' %}"></script>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- pixel JS -->
+<script src="{% static 'assets/js/pixel.js' %}"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <footer id="sticky-footer" class="py-4 mt-5">
+  <div class="d-flex flex-column flex-md-row text-center justify-content-center align-items-center" role="contentinfo">
+    <p class="font-weight-bold font-medium mb-2 mb-md-0">Copyright © MyProctor.ai <span class="current-year"><script>document.write(new Date().getFullYear())</script></span>. All rights reserved.</p>
+    <span class="mx-md-3 d-none d-md-inline">|</span>
+    <p class="font-weight-bold font-small mb-0"><span>Made with &#128151 Created by Balu Nandiwale</span></p>
+  </div>
+</footer>
+</body>
+</html>

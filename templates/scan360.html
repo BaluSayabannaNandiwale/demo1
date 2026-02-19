@@ -1,0 +1,64 @@
+{% extends 'exam_layout.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">360° Environment Scan</h3>
+                </div>
+                <div class="card-body text-center">
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle"></i> Please rotate your camera 360 degrees to scan your
+                        surroundings. Ensure no prohibited items (phones, books, other people) are visible.
+                    </div>
+
+                    <div class="position-relative d-inline-block">
+                        <video id="scan-video" width="640" height="480" autoplay playsinline
+                            style="border: 2px solid #ddd; border-radius: 8px;"></video>
+                        <canvas id="scan-canvas" width="640" height="480" style="display:none;"></canvas>
+                        <div id="scan-overlay"
+                            class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+                            style="pointer-events: none;">
+                            <div id="status-badge" class="badge bg-secondary fs-5" style="display: none;">Scanning...
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="progress mb-3" style="height: 25px; display:none;" id="scan-progress-container">
+                            <div id="scan-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated"
+                                role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100">0%</div>
+                        </div>
+
+                        <div id="detected-objects" class="mb-3 text-start" style="min-height: 20px;"></div>
+
+                        <button id="btn-start-scan" class="btn btn-lg btn-primary">
+                            <i class="fas fa-camera"></i> Start 360° Scan
+                        </button>
+
+                        <a id="btn-start-exam" href="{% url 'give_test_exam' test_id=test_id %}"
+                            class="btn btn-lg btn-success disabled" style="display: none;">
+                            <i class="fas fa-play-circle"></i> Start Exam
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <small>System will detect: Mobile Phones, Laptops, Books, Multiple Persons</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/scan360.js' %}"></script>
+<script>
+    // Pass Django variables to JS
+    const SCAN_API_URL = "{% url 'process_scan_frame' %}";
+    const TEST_ID = "{{ test_id }}";
+    const EXAM_URL = "{% url 'give_test_exam' test_id=test_id %}";
+</script>
+{% endblock %}
